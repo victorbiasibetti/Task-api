@@ -4,6 +4,7 @@ import SessionController from './app/controllers/SessionController';
 import TaskController from './app/controllers/TaskController';
 import TaskStatusController from './app/controllers/TaskStatusController';
 import TaskTypeController from './app/controllers/TaskTypeController';
+import DepartamentController from './app/controllers/DepartamentController';
 
 import authMiddleware from './app/middleware/auth';
 
@@ -32,5 +33,10 @@ routes.get('/tasks-type', TaskTypeController.index);
 routes.post('/tasks-type', TaskTypeController.store);
 routes.put('/tasks-type', TaskTypeController.update);
 routes.delete('/tasks-type', TaskTypeController.delete);
+
+routes.get('/departament', DepartamentController.index);
+routes.post('/departament', DepartamentController.store);
+routes.put('/departament', DepartamentController.update);
+routes.delete('/departament', DepartamentController.delete);
 
 export default routes;

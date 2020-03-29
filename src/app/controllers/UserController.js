@@ -2,6 +2,20 @@ import * as Yup from 'yup';
 import User from '../models/User';
 
 class UserController {
+  async index(req, res) {
+    const { page = 1, limit = 20 } = req.query;
+
+    const users = await User.findAll({
+      where: {
+        is_deleted: false,
+      },
+      limit,
+      offset: (page - 1) * limit,
+    });
+
+    return res.json(users);
+  }
+
   async store(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
@@ -66,6 +80,24 @@ class UserController {
       email,
       admin,
     });
+  }
+
+  async delete(req, res) {
+    const user = await User.findByPk(req.query.id);
+
+    if (!user) {
+      return res.status(401).json({ error: 'Usuário não encontrado' });
+    }
+
+    try {
+      await User.update({ is_deleted: true }, { where: { id: user.id } });
+    } catch (err) {
+      return res
+        .status(400)
+        .json({ error: 'Não foi possível excluír este usuário' });
+    }
+
+    return res.status(200).send();
   }
 }
 

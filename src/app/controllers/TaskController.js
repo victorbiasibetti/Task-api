@@ -1,22 +1,82 @@
 import * as Yup from 'yup';
+import { Op } from 'sequelize';
 import Task from '../models/Task';
 import User from '../models/User';
 import Departament from '../models/Departament';
 
 class TaskController {
   async index(req, res) {
-    const { page = 1, limit = 20 } = req.query;
+    const {
+      page = 1,
+      limit = 20,
+      id_responsable_departaments,
+      id_responsable_users,
+      started_at,
+      finished_at,
+      description,
+      id_tasks_status,
+      id_tasks_types,
+    } = req.query;
 
-    const tasks = await Task.findAll({
-      where: {
-        deleted_at: null,
-      },
-      limit,
-      offset: (page - 1) * limit,
-      order: ['id'],
-    });
+    const where = {};
 
-    return res.json(tasks);
+    where.deleted_at = {
+      [Op.eq]: null,
+    };
+
+    if (id_responsable_departaments) {
+      where.id_responsable_departaments = {
+        [Op.eq]: id_responsable_departaments,
+      };
+    }
+
+    if (id_responsable_users) {
+      where.id_responsable_users = {
+        [Op.eq]: id_responsable_users,
+      };
+    }
+
+    if (started_at) {
+      where.started_at = {
+        [Op.eq]: started_at,
+      };
+    }
+
+    if (finished_at) {
+      where.finished_at = {
+        [Op.eq]: finished_at,
+      };
+    }
+
+    if (description) {
+      where.description = {
+        [Op.like]: `%${description}%`,
+      };
+    }
+    if (id_tasks_status) {
+      where.id_tasks_status = {
+        [Op.eq]: id_tasks_status,
+      };
+    }
+
+    if (id_tasks_types) {
+      where.id_tasks_types = {
+        [Op.eq]: id_tasks_types,
+      };
+    }
+
+    try {
+      const tasks = await Task.findAll({
+        where,
+        limit,
+        offset: (page - 1) * limit,
+        order: ['id'],
+      });
+
+      return res.json(tasks);
+    } catch (err) {
+      return res.status(500).json({ error: 'Internal error' });
+    }
   }
 
   async store(req, res) {

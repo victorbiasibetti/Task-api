@@ -11,7 +11,6 @@ class Task extends Model {
         id_tasks_types: Sequelize.NUMBER,
         started_at: Sequelize.DATE,
         finished_at: Sequelize.DATE,
-        is_deleted: Sequelize.BOOLEAN,
       },
       {
         sequelize,

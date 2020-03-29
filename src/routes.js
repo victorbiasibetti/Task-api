@@ -2,6 +2,7 @@ import { Router } from 'express';
 import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import TaskController from './app/controllers/TaskController';
+import TaskStatusController from './app/controllers/TaskStatusController';
 
 import authMiddleware from './app/middleware/auth';
 
@@ -20,5 +21,10 @@ routes.get('/tasks', TaskController.index);
 routes.post('/tasks', TaskController.store);
 routes.put('/tasks', TaskController.update);
 routes.delete('/tasks', TaskController.delete);
+
+routes.get('/tasks-status', TaskStatusController.index);
+routes.post('/tasks-status', TaskStatusController.store);
+routes.put('/tasks-status', TaskStatusController.update);
+routes.delete('/tasks-status', TaskStatusController.delete);
 
 export default routes;

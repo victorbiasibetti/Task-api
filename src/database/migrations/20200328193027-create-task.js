@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('tasks', {
+    return queryInterface.createTable('Task', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -15,7 +15,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: true,
         refereces: {
-          model: 'departaments',
+          model: 'Departament',
           key: 'id',
         },
       },
@@ -23,7 +23,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: true,
         references: {
-          model: 'users',
+          model: 'User',
           key: 'id',
         },
       },
@@ -31,7 +31,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: true,
         references: {
-          model: 'tasks_status',
+          model: 'Task_status',
           key: 'id',
         },
       },
@@ -39,14 +39,9 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: true,
         references: {
-          model: 'tasks_types',
+          model: 'Task_type',
           key: 'id',
         },
-      },
-      is_deleted: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
       },
       started_at: {
         type: Sequelize.DATE,
@@ -64,10 +59,14 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false,
       },
+      deleted_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
     });
   },
 
   down: (queryInterface) => {
-    return queryInterface.dropTable('tasks');
+    return queryInterface.dropTable('Task');
   },
 };

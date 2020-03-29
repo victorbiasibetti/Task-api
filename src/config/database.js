@@ -10,5 +10,7 @@ module.exports = {
     timestamps: true,
     underscored: true,
     underscoredAll: true,
+    paranoid: true, // cria campo deleted_at, assim o campo não é excluído do BD
+    freezeTableName: true, // deixa o nome da tabela como está na migration
   },
 };

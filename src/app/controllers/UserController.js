@@ -7,7 +7,7 @@ class UserController {
 
     const users = await User.findAll({
       where: {
-        is_deleted: false,
+        deleted_at: null,
       },
       limit,
       offset: (page - 1) * limit,
@@ -90,7 +90,7 @@ class UserController {
     }
 
     try {
-      await User.update({ is_deleted: true }, { where: { id: user.id } });
+      await User.delete({ where: { id: user.id } });
     } catch (err) {
       return res
         .status(400)

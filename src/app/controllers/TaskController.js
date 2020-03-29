@@ -1,5 +1,7 @@
 import * as Yup from 'yup';
 import Task from '../models/Task';
+import User from '../models/User';
+import Departament from '../models/Departament';
 
 class TaskController {
   async index(req, res) {
@@ -32,6 +34,33 @@ class TaskController {
       return res.status(400).json({ error: 'Falha na validação' });
     }
 
+    const { id_responsable_departaments, id_responsable_users } = req.body;
+    if (!id_responsable_departaments && !id_responsable_users) {
+      return res.status(400).json({
+        error: 'A tarefa deve ser atribuída a um usuário ou departamento.',
+      });
+    }
+
+    if (id_responsable_users) {
+      const user = await User.findOne({ where: { id: id_responsable_users } });
+      if (!user) {
+        return res.status(400).json({
+          error: 'Usuário não existe.',
+        });
+      }
+    }
+
+    if (id_responsable_departaments) {
+      const departament = await Departament.findOne({
+        where: { id: id_responsable_departaments },
+      });
+      if (!departament) {
+        return res.status(400).json({
+          error: 'Departamento não existe.',
+        });
+      }
+    }
+
     const task = await Task.create(req.body);
 
     return res.json(task);
@@ -56,6 +85,33 @@ class TaskController {
 
     if (!task) {
       return res.status(400).json({ error: 'Tarefa não existente.' });
+    }
+
+    const { id_responsable_departaments, id_responsable_users } = req.body;
+    if (!id_responsable_departaments && !id_responsable_users) {
+      return res.status(400).json({
+        error: 'A tarefa deve ser atribuída a um usuário ou departamento.',
+      });
+    }
+
+    if (id_responsable_users) {
+      const user = await User.findOne({ where: { id: id_responsable_users } });
+      if (!user) {
+        return res.status(400).json({
+          error: 'Usuário não existe.',
+        });
+      }
+    }
+
+    if (id_responsable_departaments) {
+      const departament = await Departament.findOne({
+        where: { id: id_responsable_departaments },
+      });
+      if (!departament) {
+        return res.status(400).json({
+          error: 'Departamento não existe.',
+        });
+      }
     }
 
     try {

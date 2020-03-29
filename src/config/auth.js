@@ -1,4 +1,4 @@
 export default {
-  secret: 'Anestech',
+  secret: process.env.APP_SECRECT,
   expiresIn: '1d',
 };

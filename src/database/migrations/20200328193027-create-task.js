@@ -31,7 +31,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: true,
         references: {
-          model: 'Task_status',
+          model: 'TaskStatus',
           key: 'id',
         },
       },
@@ -39,7 +39,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: true,
         references: {
-          model: 'Task_type',
+          model: 'TaskType',
           key: 'id',
         },
       },
@@ -61,7 +61,7 @@ module.exports = {
       },
       deleted_at: {
         type: Sequelize.DATE,
-        allowNull: false,
+        allowNull: true,
       },
     });
   },

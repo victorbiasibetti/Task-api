@@ -7,7 +7,7 @@ class TaskController {
 
     const tasks = await Task.findAll({
       where: {
-        is_deleted: false,
+        deleted_at: null,
       },
       limit,
       offset: (page - 1) * limit,
@@ -75,7 +75,7 @@ class TaskController {
     }
 
     try {
-      await task.update({ is_deleted: true }, { where: { id: req.query.id } });
+      await task.destroy({ where: { id: req.query.id } });
     } catch (err) {
       return res
         .status(400)

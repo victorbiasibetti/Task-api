@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Task_status', {
+    return queryInterface.createTable('TaskStatus', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -26,12 +26,12 @@ module.exports = {
       },
       deleted_at: {
         type: Sequelize.DATE,
-        allowNull: false,
+        allowNull: true,
       },
     });
   },
 
   down: (queryInterface) => {
-    return queryInterface.dropTable('Task_status');
+    return queryInterface.dropTable('TaskStatus');
   },
 };

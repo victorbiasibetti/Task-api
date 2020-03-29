@@ -90,7 +90,7 @@ class UserController {
     }
 
     try {
-      await User.delete({ where: { id: user.id } });
+      await User.destroy({ where: { id: user.id } });
     } catch (err) {
       return res
         .status(400)

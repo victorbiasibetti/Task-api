@@ -3,6 +3,7 @@ import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import TaskController from './app/controllers/TaskController';
 import TaskStatusController from './app/controllers/TaskStatusController';
+import TaskTypeController from './app/controllers/TaskTypeController';
 
 import authMiddleware from './app/middleware/auth';
 
@@ -26,5 +27,10 @@ routes.get('/tasks-status', TaskStatusController.index);
 routes.post('/tasks-status', TaskStatusController.store);
 routes.put('/tasks-status', TaskStatusController.update);
 routes.delete('/tasks-status', TaskStatusController.delete);
+
+routes.get('/tasks-type', TaskTypeController.index);
+routes.post('/tasks-type', TaskTypeController.store);
+routes.put('/tasks-type', TaskTypeController.update);
+routes.delete('/tasks-type', TaskTypeController.delete);
 
 export default routes;

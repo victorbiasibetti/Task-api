@@ -1,11 +1,11 @@
 import * as Yup from 'yup';
-import TaskStatus from '../models/TaskStatus';
+import TaskType from '../models/TaskType';
 
 class TaskStatusController {
   async index(req, res) {
     const { page = 1, limit = 20 } = req.query;
 
-    const tasks_status = await TaskStatus.findAll({
+    const tasks_type = await TaskType.findAll({
       where: {
         deleted_at: null,
       },
@@ -14,7 +14,7 @@ class TaskStatusController {
       order: ['id'],
     });
 
-    return res.json(tasks_status);
+    return res.json(tasks_type);
   }
 
   async store(req, res) {
@@ -27,9 +27,9 @@ class TaskStatusController {
       return res.status(400).json({ error: 'Falha na validação' });
     }
 
-    const task_status = await TaskStatus.create(req.body);
+    const task_type = await TaskType.create(req.body);
 
-    return res.json(task_status);
+    return res.json(task_type);
   }
 
   async update(req, res) {
@@ -42,34 +42,32 @@ class TaskStatusController {
       return res.status(400).json({ error: 'Falha na validação' });
     }
 
-    let task_status = await TaskStatus.findByPk(req.query.id);
+    let task_type = await TaskType.findByPk(req.query.id);
 
-    if (!task_status) {
-      return res.status(400).json({ error: 'Status não existente.' });
+    if (!task_type) {
+      return res.status(400).json({ error: 'Tipo não existente.' });
     }
 
     try {
-      task_status = await task_status.update(req.body);
+      task_type = await task_type.update(req.body);
     } catch (err) {
       return res.status(500).json({ error: 'Internal error' });
     }
 
-    return res.json(task_status);
+    return res.json(task_type);
   }
 
   async delete(req, res) {
-    const task_status = await TaskStatus.findByPk(req.query.id);
+    const task_type = await TaskType.findByPk(req.query.id);
 
-    if (!task_status) {
-      return res.status(401).json({ error: 'Status não encontrado' });
+    if (!task_type) {
+      return res.status(401).json({ error: 'Tipo não encontrado' });
     }
 
     try {
-      await task_status.destroy({ where: { id: req.query.id } });
+      await task_type.destroy({ where: { id: req.query.id } });
     } catch (err) {
-      return res
-        .status(400)
-        .json({ error: 'Não foi possível excluír status.' });
+      return res.status(400).json({ error: 'Não foi possível excluír tipo.' });
     }
 
     return res.status(200).send();

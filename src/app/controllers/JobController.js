@@ -1,11 +1,11 @@
 import * as Yup from 'yup';
-import TaskStatus from '../models/Job';
+import Job from '../models/Job';
 
-class TaskStatusController {
+class JobController {
   async index(req, res) {
     const { page = 1, limit = 20 } = req.query;
 
-    const tasks_status = await TaskStatus.findAll({
+    const job = await Job.findAll({
       where: {
         deleted_at: null,
       },
@@ -14,66 +14,66 @@ class TaskStatusController {
       order: ['id'],
     });
 
-    return res.json(tasks_status);
+    return res.json(job);
   }
 
   async store(req, res) {
     const schema = Yup.object().shape({
       description: Yup.string().required(),
-      is_active: Yup.boolean(),
+      id_task: Yup.number().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Falha na validação' });
     }
 
-    const task_status = await TaskStatus.create(req.body);
+    const job = await Job.create(req.body);
 
-    return res.json(task_status);
+    return res.json(job);
   }
 
   async update(req, res) {
     const schema = Yup.object().shape({
       description: Yup.string(),
-      is_active: Yup.boolean(),
+      id_task: Yup.number().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Falha na validação' });
     }
 
-    let task_status = await TaskStatus.findByPk(req.query.id);
+    let job = await Job.findByPk(req.query.id);
 
-    if (!task_status) {
-      return res.status(400).json({ error: 'Status não existente.' });
+    if (!job) {
+      return res.status(400).json({ error: 'Atividade não existente.' });
     }
 
     try {
-      task_status = await task_status.update(req.body);
+      job = await job.update(req.body);
     } catch (err) {
       return res.status(500).json({ error: 'Internal error' });
     }
 
-    return res.json(task_status);
+    return res.json(job);
   }
 
   async delete(req, res) {
-    const task_status = await TaskStatus.findByPk(req.query.id);
+    const job = await Job.findByPk(req.query.id);
 
-    if (!task_status) {
-      return res.status(401).json({ error: 'Status não encontrado' });
+    if (!job) {
+      return res.status(401).json({ error: 'Atividade não encontrado' });
     }
 
     try {
-      await task_status.destroy({ where: { id: req.query.id } });
+      await job.destroy({ where: { id: req.query.id } });
     } catch (err) {
       return res
         .status(400)
-        .json({ error: 'Não foi possível excluír status.' });
+        .json({ error: 'Não foi possível excluír atividade.' });
     }
 
     return res.status(200).send();
   }
 }
 
-export default new TaskStatusController();
+export default new JobController();

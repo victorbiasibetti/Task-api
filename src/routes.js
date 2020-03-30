@@ -5,6 +5,7 @@ import TaskController from './app/controllers/TaskController';
 import TaskStatusController from './app/controllers/TaskStatusController';
 import TaskTypeController from './app/controllers/TaskTypeController';
 import DepartamentController from './app/controllers/DepartamentController';
+import JobController from './app/controllers/JobController';
 
 import authMiddleware from './app/middleware/auth';
 
@@ -38,5 +39,10 @@ routes.get('/departament', DepartamentController.index);
 routes.post('/departament', DepartamentController.store);
 routes.put('/departament', DepartamentController.update);
 routes.delete('/departament', DepartamentController.delete);
+
+routes.get('/job', JobController.index);
+routes.post('/job', JobController.store);
+routes.put('/job', JobController.update);
+routes.delete('/job', JobController.delete);
 
 export default routes;

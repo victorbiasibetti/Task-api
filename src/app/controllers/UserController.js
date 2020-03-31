@@ -32,8 +32,14 @@ class UserController {
       return res.status(400).json({ error: 'Usuário já existe no sistema.' });
     }
 
-    const { id, name, email, admin } = await User.create(req.body);
-    return res.json({ id, name, email, admin });
+    try {
+      const { id, name, email, admin } = await User.create(req.body);
+      return res.json({ id, name, email, admin });
+    } catch (err) {
+      return res
+        .status(500)
+        .json({ error: 'Houve um problema, tenta novamente mais tarde' });
+    }
   }
 
   async update(req, res) {
@@ -72,14 +78,20 @@ class UserController {
       return res.status(401).json({ error: 'Password antigo incorreto' });
     }
 
-    const { id, name, admin } = await user.update(req.body);
+    try {
+      const { id, name, admin } = await user.update(req.body);
 
-    return res.json({
-      id,
-      name,
-      email,
-      admin,
-    });
+      return res.json({
+        id,
+        name,
+        email,
+        admin,
+      });
+    } catch (err) {
+      return res
+        .status(500)
+        .json({ error: 'Houve um problema, tenta novamente mais tarde' });
+    }
   }
 
   async delete(req, res) {

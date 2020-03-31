@@ -5,16 +5,28 @@ class TaskStatusController {
   async index(req, res) {
     const { page = 1, limit = 20 } = req.query;
 
-    const tasks_status = await TaskStatus.findAll({
-      where: {
-        deleted_at: null,
-      },
-      limit,
-      offset: (page - 1) * limit,
-      order: ['id'],
-    });
+    try {
+      const count = await TaskStatus.count({ where: { deleted_at: null } });
+      const tasks_status = await TaskStatus.findAll({
+        where: {
+          deleted_at: null,
+        },
+        limit,
+        offset: (page - 1) * limit,
+        order: ['id'],
+      });
+      const response = {
+        page,
+        limit,
+        offset: (page - 1) * limit,
+        count,
+        tasks_status,
+      };
 
-    return res.json(tasks_status);
+      return res.json(response);
+    } catch (err) {
+      return res.status(500).json({ error: 'Internal error' });
+    }
   }
 
   async store(req, res) {

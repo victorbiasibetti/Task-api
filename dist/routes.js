@@ -6,6 +6,7 @@ var _TaskStatusController = require('./app/controllers/TaskStatusController'); v
 var _TaskTypeController = require('./app/controllers/TaskTypeController'); var _TaskTypeController2 = _interopRequireDefault(_TaskTypeController);
 var _DepartamentController = require('./app/controllers/DepartamentController'); var _DepartamentController2 = _interopRequireDefault(_DepartamentController);
 var _JobController = require('./app/controllers/JobController'); var _JobController2 = _interopRequireDefault(_JobController);
+var _ReportController = require('./app/controllers/ReportController'); var _ReportController2 = _interopRequireDefault(_ReportController);
 
 var _auth = require('./app/middleware/auth'); var _auth2 = _interopRequireDefault(_auth);
 
@@ -44,5 +45,8 @@ routes.get('/job', _JobController2.default.index);
 routes.post('/job', _JobController2.default.store);
 routes.put('/job', _JobController2.default.update);
 routes.delete('/job', _JobController2.default.delete);
+
+routes.get('/report', _ReportController2.default.CountCompletedTasks);
+routes.get('/report/time', _ReportController2.default.TimeOfClosionTasks);
 
 exports. default = routes;

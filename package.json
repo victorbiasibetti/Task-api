@@ -19,7 +19,7 @@
   "scripts": {
     "dev": "nodemon src/server.js",
     "debug": "nodemon --inspect src/server.js",
-    "start": "yarn sequelize db:migrate && node dist/server.js",
+    "start": "node dist/server.js",
     "build": "sucrase ./src -d ./dist --transforms imports"
   },
   "devDependencies": {

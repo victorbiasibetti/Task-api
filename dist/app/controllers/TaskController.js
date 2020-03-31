@@ -36,6 +36,9 @@ class TaskController {
       };
     }
 
+    // Aqui poderia ser um between dependendo de como o frontend
+    // apresentasse os dados
+
     if (started_at) {
       where.started_at = {
         [_sequelize.Op.eq]: started_at,
@@ -47,6 +50,7 @@ class TaskController {
         [_sequelize.Op.eq]: finished_at,
       };
     }
+    //---------------------------------
 
     if (description) {
       where.description = {
@@ -66,26 +70,36 @@ class TaskController {
     }
 
     try {
+      const count = await _Task2.default.count({ where });
       const tasks = await _Task2.default.findAll({
         where,
         limit,
         offset: (page - 1) * limit,
         order: ['id'],
       });
+      const response = {
+        page,
+        limit,
+        offset: (page - 1) * limit,
+        count,
+        tasks,
+      };
 
-      return res.json(tasks);
+      return res.json(response);
     } catch (err) {
-      return res.status(500).json({ error: 'Internal error' });
+      return res
+        .status(500)
+        .json({ error: 'Houve um problema, tente novamente mais tarde' });
     }
   }
 
   async store(req, res) {
     const schema = Yup.object().shape({
       description: Yup.string().required(),
-      id_responsable_departaments: Yup.number(),
-      id_responsable_users: Yup.number(),
-      started_at: Yup.date(),
-      finished_at: Yup.date(),
+      id_responsable_departaments: Yup.number().nullable(),
+      id_responsable_users: Yup.number().nullable(),
+      started_at: Yup.date().nullable(),
+      finished_at: Yup.date().nullable(),
       id_tasks_status: Yup.number(),
       id_tasks_types: Yup.number(),
     });
@@ -129,10 +143,10 @@ class TaskController {
   async update(req, res) {
     const schema = Yup.object().shape({
       description: Yup.string(),
-      id_responsable_departaments: Yup.number(),
-      id_responsable_users: Yup.number(),
-      started_at: Yup.date(),
-      finished_at: Yup.date(),
+      id_responsable_departaments: Yup.number().nullable(),
+      id_responsable_users: Yup.number().nullable(),
+      started_at: Yup.date().nullable(),
+      finished_at: Yup.date().nullable(),
       id_tasks_status: Yup.number(),
       id_tasks_types: Yup.number(),
     });

@@ -22,7 +22,7 @@
     "start": "node dist/server.js",
     "build": "sucrase ./src -d ./dist --transforms imports",
     "migrate" : "yarn sequelize db:migrate",
-    "heroku-prebuild": "echo This runs before Heroku installs your dependencies.",
+    "heroku-prebuild": "yarn build",
     "heroku-postbuild": "yarn migrate"
   },
   "devDependencies": {

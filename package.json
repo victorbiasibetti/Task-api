@@ -21,7 +21,7 @@
     "debug": "nodemon --inspect src/server.js",
     "start": "yarn migrate && node dist/server.js",
     "build": "sucrase ./src -d ./dist --transforms imports",
-    "migrate" : "node_modules/.bin/sequelize db:migrate"
+    "migrate" : "./node_modules/.bin/sequelize db:migrate"
   },
   "devDependencies": {
     "eslint": "^6.8.0",

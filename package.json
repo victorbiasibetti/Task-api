@@ -14,6 +14,7 @@
     "pg": "^7.18.2",
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.21.5",
+    "sequelize-cli": "^5.5.1",
     "yup": "^0.28.3"
   },
   "scripts": {
@@ -22,8 +23,8 @@
     "start": "node dist/server.js",
     "build": "sucrase ./src -d ./dist --transforms imports",
     "migrate" : "yarn sequelize db:migrate",
-    "heroku-prebuild": "yarn build",
-    "heroku-postbuild": "yarn migrate"
+    "heroku-prebuild": "echo prebuild",
+    "heroku-postbuild": "echo postbuild"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
@@ -33,7 +34,6 @@
     "eslint-plugin-prettier": "^3.1.2",
     "nodemon": "^2.0.2",
     "prettier": "^2.0.2",
-    "sequelize-cli": "^5.5.1",
     "sucrase": "^3.12.1"
   }
 }
